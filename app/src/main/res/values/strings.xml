@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyFirstApp</string>
+    <string name="button_label_login">LOGIN</string>
+    <string name="login_message">Success!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="back">Back</string>
+    <string name="enter_button">Enter</string>
+</resources>
