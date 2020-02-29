@@ -10,15 +10,20 @@ import android.os.UserHandle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private Button login_button;
+    TextView textView1;
     private ImageView login_background;
     DataBase myDb;
 
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myDb = new DataBase(this);
-
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.bounce);
     }
 
     public void show(View view){
