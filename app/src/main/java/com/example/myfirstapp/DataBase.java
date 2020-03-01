@@ -13,8 +13,7 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String COL_2 = "LASTNAME";
     public static final String COL_3 = "USERNAME";
     public static final String COL_4 = "PASSWORD";
-    public static final String COL_5 = "CHECKING";
-    public static final String COL_6 = "SAVINGS";
+    public static final String COL_5 = "BALANCE";
 
     public DataBase(Context context){
         super(context, DATABASE_NAME, null, 1);
@@ -23,7 +22,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, FIRSTNAME TEXT, LASTNAME TEXT, USERNAME TEXT, PASSWORD TEXT, CHECKING INT, SAVINGS INT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, FIRSTNAME TEXT, LASTNAME TEXT, USERNAME TEXT, PASSWORD TEXT, BALANCE INT)");
     }
 
     @Override
