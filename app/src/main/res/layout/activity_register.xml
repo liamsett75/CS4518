@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/login_background3"
-            app:layout_constraintVertical_bias="0.357" />
+            app:layout_constraintVertical_bias="0.309" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_user_button"
@@ -85,7 +85,7 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.916"
+            app:layout_constraintVertical_bias="0.888"
             app:rippleColor="#33AAAAAA"
             app:strokeColor="@android:color/holo_red_dark"
             app:strokeWidth="4dp" />
@@ -110,7 +110,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/login_background3"
-            app:layout_constraintVertical_bias="0.637" />
+            app:layout_constraintVertical_bias="0.57" />
 
         <EditText
             android:id="@+id/registerUserText"
@@ -133,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/login_background3"
-            app:layout_constraintVertical_bias="0.494" />
+            app:layout_constraintVertical_bias="0.442" />
 
         <EditText
             android:id="@+id/registerPINText"
@@ -157,7 +157,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/login_background3"
-            app:layout_constraintVertical_bias="0.762" />
+            app:layout_constraintVertical_bias="0.699" />
 
         <!--                      Commented out, as it takes up a bit of space
                 <ImageButton      and there are already back buttons at the top and bottoms of the screen

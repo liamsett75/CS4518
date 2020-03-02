@@ -2,6 +2,11 @@
     <string name="app_name">Money Buddy</string>
     <string name="button_label_login">LOGIN</string>
     <string name="login_message">Login successful!</string>
+    <string name="login_failed">Username and password do not match</string>
+    <string name="blank_name">Name cannot be empty</string>
+    <string name="blank_username">Please enter a username</string>
+    <string name="blank_pwd">Please enter a password</string>
+    <string name="blank_pin">Please enter a PIN </string>
     <string name="name">Name</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

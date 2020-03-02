@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,6 +61,30 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void addUser(View view) {
+
+        if(registerNameText.getText().toString().equals("")){
+            Toast toast = Toast.makeText(this, R.string.blank_name, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 400);
+            toast.show();
+        }
+
+        else if(registerUsernameText.getText().toString().equals("")){
+            Toast toast = Toast.makeText(this, R.string.blank_username, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 400);
+            toast.show();
+        }
+
+        else if(registerPwdText.getText().toString().equals("")){
+            Toast toast = Toast.makeText(this, R.string.blank_pwd, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 400);
+            toast.show();
+        }
+
+        else if(registerPINText.getText().toString().equals("")){
+            Toast toast = Toast.makeText(this, R.string.blank_pin, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 400);
+            toast.show();
+        }
 
         User newUser = new User( registerNameText.getText().toString(), registerUsernameText.getText().toString(), registerPwdText.getText().toString(), registerPINText.getText().toString(), true, 0);
         SQLiteDatabase db = MainActivity.getMyDb().getWritableDatabase();
