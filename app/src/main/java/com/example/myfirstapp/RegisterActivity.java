@@ -24,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     public EditText registerUsernameText;
     public EditText registerPwdText;
     public EditText registerPINText;
+    DataBase dbHelp;
    // MainActivity mainActivity;
 
     @Override
@@ -31,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        dbHelp = new DataBase(this);
         registerNameText = (EditText)findViewById(R.id.registerNameText);
         registerUsernameText = (EditText)findViewById(R.id.registerUserText);
         registerPwdText = (EditText)findViewById(R.id.registerPwdText);
@@ -60,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public void addUser(View view) {
+    public void addUser(User user) {
 
         if(registerNameText.getText().toString().equals("")){
             Toast toast = Toast.makeText(this, R.string.blank_name, Toast.LENGTH_SHORT);
@@ -86,8 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
             toast.show();
         }
 
-        User newUser = new User( registerNameText.getText().toString(), registerUsernameText.getText().toString(), registerPwdText.getText().toString(), registerPINText.getText().toString(), true, 0);
-        SQLiteDatabase db = MainActivity.getMyDb().getWritableDatabase();
+        User newUser = new User(registerNameText.getText().toString(), registerUsernameText.getText().toString(), registerPwdText.getText().toString(), registerPINText.getText().toString(), true, 0);
+//        SQLiteDatabase db = this
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, newUser.getName());
         contentValues.put(COL_2, newUser.getGuestUser());
@@ -96,6 +97,6 @@ public class RegisterActivity extends AppCompatActivity {
         contentValues.put(COL_5, newUser.getBalance());
         Log.d(TAG, "addUser: Adding " + newUser.getGuestUser() + "as a new user.");
 
-        db.insert(TABLE_NAME, null, contentValues);
+
     }
 }

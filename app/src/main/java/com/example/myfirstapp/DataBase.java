@@ -14,6 +14,7 @@ import static android.content.ContentValues.TAG;
 public class DataBase extends SQLiteOpenHelper {
     EditText registerUsernameText;
     EditText registerPwdText;
+    RegisterActivity ra;
 
     public static final String DATABASE_NAME = "client.db";
     public static final String TABLE_NAME = "client_table";
@@ -30,16 +31,14 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, USERNAME TEXT, PASSWORD TEXT, PIN TEXT, BALANCE INT)");
-        db.execSQL("SELECT * FROM TABLE_NAME");
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + COL_1 + " TEXT," + COL_2 + " TEXT," + COL_3 + " TEXT," + COL_4 + " TEXT," + COL_5 + " INT" + ")";
+        db.execSQL(CREATE_USER_TABLE);
     }
 
-    public void addUser(String username, String password){
-        username = registerUsernameText.getText().toString();
-        password = registerPwdText.getText().toString();
-
-        User newUser = new User("", username, password, "",true, 0);
+    public void addUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
+
+        User newUser = new User(user.getName(), user.getGuestUser(), user.getGuestPass(), user.getPin(),true, 0);
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, newUser.getName());
         contentValues.put(COL_2, newUser.getGuestUser());
@@ -47,14 +46,19 @@ public class DataBase extends SQLiteOpenHelper {
         contentValues.put(COL_4, newUser.getPin());
         contentValues.put(COL_5, newUser.getBalance());
         Log.d(TAG, "addUser: Adding " + newUser.getGuestUser() + "as a new user.");
-
         db.insert(TABLE_NAME, null, contentValues);
-
+        db.close();
 
     }
+
+    public void showDB(SQLiteDatabase db){
+        db.execSQL("SELECT * FROM TABLE_NAME" );
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
         onCreate(db);
+
     }
 }

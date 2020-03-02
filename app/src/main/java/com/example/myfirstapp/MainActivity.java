@@ -35,7 +35,7 @@ import static com.example.myfirstapp.DataBase.TABLE_NAME;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView login_background;
-    public static DataBase myDb;
+    public static SQLiteDatabase myDb;
 
     public EditText usernameText;
     public EditText passwordText;
@@ -49,18 +49,16 @@ public class MainActivity extends AppCompatActivity {
     private String sharedPrefFile =
             "com.example.android.hellosharedprefs";
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    DataBase db;
 
-    public static DataBase getMyDb() {
-        return myDb;
-    }
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        db = new DataBase(this);
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDb = new DataBase(this);
         userList.add(user1);
 
         usernameText = (EditText)findViewById(R.id.usernameText);
