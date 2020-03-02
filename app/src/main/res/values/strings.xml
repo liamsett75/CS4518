@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">MyFirstApp</string>
+    <string name="app_name">Money Buddy</string>
     <string name="button_label_login">LOGIN</string>
     <string name="login_message">Login successful!</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="back">Back</string>
     <string name="enter_button">Enter</string>
     <string name="welcome">WELCOME,</string>
     <string name="signup">SIGN UP</string>
+    <string name="signupLabel">CREATE ACCOUNT</string>
 </resources>

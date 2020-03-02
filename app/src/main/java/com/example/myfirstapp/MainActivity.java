@@ -2,8 +2,10 @@ package com.example.myfirstapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.UserHandle;
@@ -23,15 +25,33 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+import static com.example.myfirstapp.DataBase.COL_3;
+import static com.example.myfirstapp.DataBase.COL_4;
+import static com.example.myfirstapp.DataBase.COL_5;
+import static com.example.myfirstapp.DataBase.TABLE_NAME;
+
 public class MainActivity extends AppCompatActivity {
     private ImageView login_background;
-    DataBase myDb;
+    public DataBase myDb;
 
+    public EditText usernameText;
+    public EditText passwordText;
+
+    private ArrayList<User> userList = new ArrayList<User>();
+    private User user1 = new User("lsetterlund", "1234", false, 0); //Can handle this in a database later on...
+
+    public EditText registerUsernameText;
+    public EditText registerPwdText;
     private SharedPreferences mPreferences;
     private String sharedPrefFile =
             "com.example.android.hellosharedprefs";
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    public DataBase getMyDb() {
+        return myDb;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +66,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public EditText usernameText;
-    public EditText passwordText;
+    public void addUser(View view) {
+        String username = registerUsernameText.getText().toString();
+        String password = registerPwdText.getText().toString();
+        User newUser = new User(username, password, true, 0);
+        SQLiteDatabase db = getMyDb().getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_3, newUser.getGuestUser());
+        contentValues.put(COL_4, newUser.getGuestPass());
+        contentValues.put(COL_5, newUser.getBalance());
+        Log.d(TAG, "addUser: Adding " + newUser.getGuestUser() + "as a new user.");
 
-    private ArrayList<User> userList = new ArrayList<User>();
-    private User user1 = new User("lsetterlund", "1234", false, 0); //Can handle this in a database later on...
+        db.insert(TABLE_NAME, null, contentValues);
+    }
+
 
     public void openLogin(View view) {
         setContentView(R.layout.activity_second);
@@ -76,19 +105,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void openWebsite(View view) {
-        // Get the URL text.
-        String url = "https://accounts.google.com/signup/v2/webcreateaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ltmpl=default&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp";
-        // Parse the URI and create the intent.
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+    public void registerEnter(View view) {
+        setContentView(R.layout.activity_register);
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
 
-        // Find an activity to hand the intent and start that activity.
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
             Log.d("ImplicitIntents", "Can't handle this intent!");
         }
     }
+
+//    public void openWebsite(View view) {
+//        // Get the URL text.
+//        String url = "https://accounts.google.com/signup/v2/webcreateaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ltmpl=default&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp";
+//        // Parse the URI and create the intent.
+//        Uri webpage = Uri.parse(url);
+//        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+//
+//        // Find an activity to hand the intent and start that activity.
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
+//        } else {
+//            Log.d("ImplicitIntents", "Can't handle this intent!");
+//        }
+//    }
 
 }

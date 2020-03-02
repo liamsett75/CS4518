@@ -94,7 +94,7 @@
 
         android:layout_weight="1"
         android:background="@android:color/transparent"
-        android:onClick="openWebsite"
+        android:onClick="registerEnter"
 
         android:text="@string/signup"
 
@@ -109,7 +109,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.738"
+        app:layout_constraintVertical_bias="0.771"
         app:rippleColor="#33AAAAAA"
         app:strokeColor="@android:color/holo_red_dark"
         app:strokeWidth="4dp" />
@@ -135,7 +135,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.567"
+        app:layout_constraintVertical_bias="0.618"
         app:rippleColor="#33AAAAAA"
         app:strokeColor="@android:color/holo_red_dark"
         app:strokeWidth="4dp" />
