@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class SecondActivity extends AppCompatActivity {
 
     private ArrayList<User> userList = new ArrayList<User>();
-    private User user1 = new User("lsetterlund", "1234", false, 0); //Can handle this in a database later on...
+    private User user1 = new User("Liam", "lsetterlund", "1234", "1234", false, 0); //Can handle this in a database later on...
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

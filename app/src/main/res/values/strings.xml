@@ -2,8 +2,10 @@
     <string name="app_name">Money Buddy</string>
     <string name="button_label_login">LOGIN</string>
     <string name="login_message">Login successful!</string>
+    <string name="name">Name</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="pin">PIN</string>
     <string name="enter_button">Enter</string>
     <string name="welcome">WELCOME,</string>
     <string name="signup">SIGN UP</string>

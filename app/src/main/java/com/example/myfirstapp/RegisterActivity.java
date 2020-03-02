@@ -10,15 +10,19 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static android.content.ContentValues.TAG;
+import static com.example.myfirstapp.DataBase.COL_1;
+import static com.example.myfirstapp.DataBase.COL_2;
 import static com.example.myfirstapp.DataBase.COL_3;
 import static com.example.myfirstapp.DataBase.COL_4;
 import static com.example.myfirstapp.DataBase.COL_5;
 import static com.example.myfirstapp.DataBase.TABLE_NAME;
 
 public class RegisterActivity extends AppCompatActivity {
+    public EditText registerNameText;
     public EditText registerUsernameText;
     public EditText registerPwdText;
-    MainActivity mainActivity;
+    public EditText registerPINText;
+   // MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registerUsernameText = (EditText)findViewById(R.id.usernameText);
-        registerPwdText = (EditText)findViewById(R.id.passwordText);
+        registerNameText = (EditText)findViewById(R.id.registerNameText);
+        registerUsernameText = (EditText)findViewById(R.id.registerUserText);
+        registerPwdText = (EditText)findViewById(R.id.registerPwdText);
+        registerPINText = (EditText)findViewById(R.id.registerPINText);
     }
 
 //    public void addUser(String username, String password) {
@@ -54,11 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void addUser(View view) {
 
-        User newUser = new User(registerUsernameText.getText().toString(),registerPwdText.getText().toString(), true, 0);
-        SQLiteDatabase db = mainActivity.getMyDb().getWritableDatabase();
+        User newUser = new User( registerNameText.getText().toString(), registerUsernameText.getText().toString(), registerPwdText.getText().toString(), registerPINText.getText().toString(), true, 0);
+        SQLiteDatabase db = MainActivity.getMyDb().getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_3, newUser.getGuestUser());
-        contentValues.put(COL_4, newUser.getGuestPass());
+        contentValues.put(COL_1, newUser.getName());
+        contentValues.put(COL_2, newUser.getGuestUser());
+        contentValues.put(COL_3, newUser.getGuestPass());
+        contentValues.put(COL_4, newUser.getPin());
         contentValues.put(COL_5, newUser.getBalance());
         Log.d(TAG, "addUser: Adding " + newUser.getGuestUser() + "as a new user.");
 

@@ -17,10 +17,10 @@ public class DataBase extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "client.db";
     public static final String TABLE_NAME = "client_table";
-    public static final String COL_1 = "FIRSTNAME";
-    public static final String COL_2 = "LASTNAME";
-    public static final String COL_3 = "USERNAME";
-    public static final String COL_4 = "PASSWORD";
+    public static final String COL_1 = "NAME";
+    public static final String COL_2 = "USERNAME";
+    public static final String COL_3 = "PASSWORD";
+    public static final String COL_4 = "PIN";
     public static final String COL_5 = "BALANCE";
 
     public DataBase(Context context){
@@ -30,7 +30,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, FIRSTNAME TEXT, LASTNAME TEXT, USERNAME TEXT, PASSWORD TEXT, BALANCE INT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, USERNAME TEXT, PASSWORD TEXT, PIN TEXT, BALANCE INT)");
         db.execSQL("SELECT * FROM TABLE_NAME");
     }
 
@@ -38,11 +38,13 @@ public class DataBase extends SQLiteOpenHelper {
         username = registerUsernameText.getText().toString();
         password = registerPwdText.getText().toString();
 
-        User newUser = new User(username, password, true, 0);
+        User newUser = new User("", username, password, "",true, 0);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_3, newUser.getGuestUser());
-        contentValues.put(COL_4, newUser.getGuestPass());
+        contentValues.put(COL_1, newUser.getName());
+        contentValues.put(COL_2, newUser.getGuestUser());
+        contentValues.put(COL_3, newUser.getGuestPass());
+        contentValues.put(COL_4, newUser.getPin());
         contentValues.put(COL_5, newUser.getBalance());
         Log.d(TAG, "addUser: Adding " + newUser.getGuestUser() + "as a new user.");
 

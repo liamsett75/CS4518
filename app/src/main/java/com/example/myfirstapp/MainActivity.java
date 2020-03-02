@@ -26,6 +26,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static com.example.myfirstapp.DataBase.COL_1;
+import static com.example.myfirstapp.DataBase.COL_2;
 import static com.example.myfirstapp.DataBase.COL_3;
 import static com.example.myfirstapp.DataBase.COL_4;
 import static com.example.myfirstapp.DataBase.COL_5;
@@ -33,13 +35,13 @@ import static com.example.myfirstapp.DataBase.TABLE_NAME;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView login_background;
-    public DataBase myDb;
+    public static DataBase myDb;
 
     public EditText usernameText;
     public EditText passwordText;
 
     private ArrayList<User> userList = new ArrayList<User>();
-    private User user1 = new User("lsetterlund", "1234", false, 0); //Can handle this in a database later on...
+    private User user1 = new User("Liam", "lsetterlund", "1234", "1234", false, 0); //Can handle this in a database later on...
 
     public EditText registerUsernameText;
     public EditText registerPwdText;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    public DataBase getMyDb() {
+    public static DataBase getMyDb() {
         return myDb;
     }
 
@@ -65,21 +67,23 @@ public class MainActivity extends AppCompatActivity {
         passwordText = (EditText)findViewById(R.id.passwordText);
 
     }
-
+/* Already in RegisterActivity.java
     public void addUser(View view) {
         String username = registerUsernameText.getText().toString();
         String password = registerPwdText.getText().toString();
-        User newUser = new User(username, password, true, 0);
+        User newUser = new User("", username, password, "",true, 0);
         SQLiteDatabase db = getMyDb().getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_3, newUser.getGuestUser());
-        contentValues.put(COL_4, newUser.getGuestPass());
+        contentValues.put(COL_1, newUser.getName());
+        contentValues.put(COL_2, newUser.getGuestUser());
+        contentValues.put(COL_3, newUser.getGuestPass());
+        contentValues.put(COL_4, newUser.getPin());
         contentValues.put(COL_5, newUser.getBalance());
         Log.d(TAG, "addUser: Adding " + newUser.getGuestUser() + "as a new user.");
 
         db.insert(TABLE_NAME, null, contentValues);
     }
-
+*/
 
     public void openLogin(View view) {
         setContentView(R.layout.activity_second);
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < userList.size(); i++) {
             if ((usernameText.getText().toString().equals(userList.get(i).getGuestUser())) && (passwordText.getText().toString().equals(userList.get(i).getGuestPass()))) {
                 userList.get(i).setIsLoggedOn();
-                System.out.println(userList.get(i).getGuestUser() + " Has logged in");
+                System.out.println(userList.get(i).getName() + " Has logged in");
                 System.out.println(userList.get(i).toString());
                 toast.setGravity(Gravity.TOP, 0, 400);
                 toast.show();
