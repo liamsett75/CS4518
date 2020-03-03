@@ -9,6 +9,11 @@ public class User {
     private String guestUser;
     private String guestPass;
     private String pin;
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     private int balance;
 
     public int getBalance() {

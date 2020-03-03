@@ -18,6 +18,7 @@
     <string name='addToBalance'>Deposit</string>
     <string name='balance'>BALANCE</string>
     <string name='completeDepo'>COMPLETE</string>
+    <string name="withdrawalText">Withdraw</string>
     <string name="button0">0</string>
     <string name="button1">1</string>
     <string name="button2">2</string>

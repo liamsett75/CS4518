@@ -47,9 +47,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/button0"
+            android:text="0"
             android:textColor="@android:color/white"
-            android:textSize="100sp"
+            android:textSize="75sp"
             android:textStyle="bold"
             app:fontFamily="serif-monospace"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +68,7 @@
 
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:onClick="openDeposit"
+            android:onClick="dw_Handler"
             android:text="@string/addToBalance"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
@@ -81,8 +81,32 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.721"
+            app:layout_constraintVertical_bias="0.656"
             app:rippleColor="#33AAAAAA"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/withdrawal_btn"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:onClick="dw_Handler"
+            android:text="@string/withdrawalText"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:backgroundTint="@android:color/transparent"
+            app:cornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.836"
             app:strokeColor="@android:color/holo_red_dark"
             app:strokeWidth="4dp" />
 
@@ -315,7 +339,7 @@
                     </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/finish_deposit_btn"
+                        android:id="@+id/deposit_withdrawl_btn"
                         style="@style/Widget.AppCompat.Button.Borderless"
 
                         android:layout_width="150dp"
@@ -325,7 +349,6 @@
 
                         android:background="@color/moneyGreen"
                         android:onClick="addToBalance"
-                        android:text="@string/addToBalance"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
