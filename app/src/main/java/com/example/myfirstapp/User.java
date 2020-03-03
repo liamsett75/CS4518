@@ -10,13 +10,13 @@ public class User {
     private String guestPass;
     private String pin;
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    private int balance;
+    private double balance;
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
@@ -36,7 +36,7 @@ public class User {
         isLoggedOn = true;
     }
 
-    public User(String name, String guestUser, String guestPass, String pin, Boolean isLoggedOn, int balance){
+    public User(String name, String guestUser, String guestPass, String pin, Boolean isLoggedOn, double balance){
         this.name = name;
         this.guestPass = guestPass;
         this.guestUser = guestUser;

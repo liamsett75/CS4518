@@ -3,7 +3,9 @@ package com.example.myfirstapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +17,15 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Set;
+
+import static com.example.myfirstapp.MainActivity.getmPreferences;
 
 public class SecondActivity extends AppCompatActivity {
 
     public LinearLayout parentLinear;
     public TextView deposit_text;
+    public Button buttonDot;
     public Button button0;
     public Button button1;
     public Button button2;
@@ -41,6 +47,10 @@ public class SecondActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        buttonDot = (Button) findViewById(R.id.buttonDot);
         button0 = (Button) findViewById(R.id.button0);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
@@ -58,9 +68,19 @@ public class SecondActivity extends AppCompatActivity {
         parentLinear = (LinearLayout) findViewById(R.id.parentLinear);
         deposit_btn = (Button) findViewById(R.id.deposit_btn);
         withdrawal_btn = (Button) findViewById(R.id.withdrawal_btn);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
         userList.add(user1);
+        Log.d(MainActivity.class.getSimpleName(), MainActivity.getLoggedInUser());
+        Set<String> userInfo = getmPreferences().getStringSet(MainActivity.getLoggedInUser(), null);
+        String balance = "";
+        for(String s : userInfo) {
+            if(s.startsWith("b"))
+                balance = s.substring(1);
+        }
+        double number = Double.parseDouble(balance);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
+        String numberAsString = decimalFormat.format(number);
+        balance_number.setText("$" + numberAsString);
+        balance_number.setText(balance);
     }
 
     public void clearInput(View view){
@@ -106,11 +126,24 @@ public class SecondActivity extends AppCompatActivity {
         parentLinear = (LinearLayout) findViewById(R.id.parentLinear);
         Toast toast = Toast.makeText(this, "Deposit Successful", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 400);
-        int number = Integer.parseInt(deposit_text.getText().toString());
-        int current_balance = user1.getBalance();
-        int updated = number + current_balance;
-        user1.setBalance(updated);
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+        double number = Double.parseDouble(deposit_text.getText().toString());
+
+        Set<String> userInfo = getmPreferences().getStringSet(MainActivity.getLoggedInUser(), null);
+        String balance = "";
+        for(String s : userInfo) {
+            if(s.startsWith("b")) {
+                balance = s.substring(1);
+                userInfo.remove(s);
+            }
+        }
+        double current_balance = Double.parseDouble(balance);
+        double updated = number + current_balance;
+        userInfo.add("b" + updated);
+        SharedPreferences.Editor preferencesEditor = MainActivity.getmPreferences().edit();
+        preferencesEditor.putStringSet(MainActivity.getLoggedInUser(), userInfo);
+        preferencesEditor.apply();
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
         String numberAsString = decimalFormat.format(updated);
         balance_number.setText("$" + numberAsString);
         System.out.println(numberAsString);
@@ -129,20 +162,38 @@ public class SecondActivity extends AppCompatActivity {
         toast.setGravity(Gravity.TOP, 0, 400);
         Toast toast2 = Toast.makeText(this, "Could not complete withdrawal. Not enough funds in account", Toast.LENGTH_LONG);
         toast2.setGravity(Gravity.TOP, 0, 400);
-        int number = Integer.parseInt(deposit_text.getText().toString());
-        int current_balance = user1.getBalance();
-        int wUpdated = (current_balance - number);
+        double number = Double.parseDouble(deposit_text.getText().toString());
+
+        Set<String> userInfo = getmPreferences().getStringSet(MainActivity.getLoggedInUser(), null);
+        String balance = "";
+        for(String s : userInfo) {
+            if(s.startsWith("b")) {
+                balance = s.substring(1);
+                userInfo.remove(s);
+            }
+        }
+        double current_balance = Double.parseDouble(balance);
+
+        double wUpdated = (current_balance - number);
         System.out.println(wUpdated);
             if (current_balance >= number) {
-                user1.setBalance(wUpdated);
-                DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+                userInfo.add("b" + wUpdated);
+                SharedPreferences.Editor preferencesEditor = MainActivity.getmPreferences().edit();
+                preferencesEditor.putStringSet(MainActivity.getLoggedInUser(), userInfo);
+                preferencesEditor.apply();
+
+                DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
                 String numberAsString = decimalFormat.format(wUpdated);
                 balance_number.setText("$" + numberAsString);
                 System.out.println(numberAsString);
                 toast.show();
             }
             else{
-                user1.setBalance(current_balance);
+                userInfo.add("b" + current_balance);
+                SharedPreferences.Editor preferencesEditor = MainActivity.getmPreferences().edit();
+                preferencesEditor.putStringSet(MainActivity.getLoggedInUser(), userInfo);
+                preferencesEditor.apply();
+
                 toast2.show();
             }
 
@@ -159,6 +210,7 @@ public class SecondActivity extends AppCompatActivity {
 
         parentLinear = (LinearLayout) findViewById(R.id.parentLinear);
         parentLinear.setVisibility(View.VISIBLE);
+        buttonDot = (Button) findViewById(R.id.buttonDot);
         button0 = (Button) findViewById(R.id.button0);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
@@ -175,6 +227,13 @@ public class SecondActivity extends AppCompatActivity {
         if(deposit_withdrawal_btn.isPressed()){
             addToBalance(view);
         }
+
+        buttonDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deposit_text.setText(deposit_text.getText() + ".");
+            }
+        });
 
         button0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,6 +303,8 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
+        if (buttonDot.isPressed())
+            buttonDot.callOnClick();
         if (button0.isPressed())
             button0.callOnClick();
         if (button1.isPressed())
@@ -273,6 +334,7 @@ public class SecondActivity extends AppCompatActivity {
 
         deposit_withdrawal_btn.setText("Withdraw");
 
+        buttonDot = (Button) findViewById(R.id.buttonDot);
         button0 = (Button) findViewById(R.id.button0);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
@@ -289,6 +351,13 @@ public class SecondActivity extends AppCompatActivity {
         if(deposit_withdrawal_btn.isPressed()){
             removeFromBalance(view);
         }
+
+        buttonDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deposit_text.setText(deposit_text.getText() + ".");
+            }
+        });
 
         button0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,6 +427,8 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
+        if (buttonDot.isPressed())
+            buttonDot.callOnClick();
         if (button0.isPressed())
             button0.callOnClick();
         if (button1.isPressed())
