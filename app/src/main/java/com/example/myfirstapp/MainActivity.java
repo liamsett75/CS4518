@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.UserHandle;
 import android.text.InputType;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     public EditText usernameText;
     public EditText passwordText;
+
+    private static String loggedInUser = "";
 
     private static SharedPreferences mPreferences;
     private String sharedPrefFile =
@@ -62,6 +65,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    android.os.Handler myHandler = new Handler();
+    Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(LOG_TAG, loggedInUser);
+            if(loggedInUser.length() > 0) {
+                //setContentView(R.layout.activity_in);
+                Intent intent = new Intent(MainActivity.this, InActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        myHandler.removeCallbacks(myRunnable);
+        myHandler.postDelayed(myRunnable , 30000);
+    }
+
     public void openLogin(View view) {
         setContentView(R.layout.activity_second);
         Log.d(LOG_TAG, "Button clicked!");
@@ -73,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         if(mPreferences.contains(usernameText.getText().toString())) {
             Set<String> userInfo = mPreferences.getStringSet(usernameText.getText().toString(), null);
             if(userInfo.contains("p" + passwordText.getText().toString())) {
+                loggedInUser = usernameText.getText().toString();
                 Toast toast = Toast.makeText(this, R.string.login_message, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 400);
                 toast.show();
@@ -106,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
 
     protected static SharedPreferences getmPreferences() {
         return mPreferences;
+    }
+
+    protected static String getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    protected static void logUserOut() {
+        loggedInUser = "";
     }
 
 }
