@@ -71,6 +71,12 @@ public class RegisterActivity extends AppCompatActivity {
             toast.show();
         }
 
+        else if (!strongPassword(registerPwdText.getText().toString())) {
+            Toast toast = Toast.makeText(this, "Passwords should contain both letters and numbers and should be at least 8 characters long", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 400);
+            toast.show();
+        }
+
         else {
             SharedPreferences.Editor preferencesEditor = MainActivity.getmPreferences().edit();
             Set<String> userInfo = new HashSet<>();
@@ -91,5 +97,19 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public boolean strongPassword(String password) {
+        boolean hasChar = false;
+        boolean hasNum = false;
+        char[] chars = password.toCharArray();
+        for(char c : chars) {
+            if(Character.isLetter((c)))
+                hasChar = true;
+            if(Character.isDigit(c))
+                hasNum = true;
+        }
+
+        return hasChar && hasNum && password.length() >= 8;
     }
 }
