@@ -87,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
             preferencesEditor.putStringSet(registerUsernameText.getText().toString(), userInfo);
             preferencesEditor.apply();
 
-            setContentView(R.layout.activity_main);
+            //setContentView(R.layout.activity_main);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             Toast toast = Toast.makeText(this, "New account successfully created", Toast.LENGTH_SHORT);

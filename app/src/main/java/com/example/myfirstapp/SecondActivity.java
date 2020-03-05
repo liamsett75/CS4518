@@ -3,8 +3,10 @@ package com.example.myfirstapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -45,6 +47,12 @@ public class SecondActivity extends AppCompatActivity {
     private ArrayList<User> userList = new ArrayList<User>();
     private User user1 = new User("Liam", "lsetterlund", "1234", "1234", false, 0); //Can handle this in a database later on...
 
+    public static boolean isFocused() {
+        return focused;
+    }
+
+    private static boolean focused;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +77,7 @@ public class SecondActivity extends AppCompatActivity {
         deposit_btn = (Button) findViewById(R.id.deposit_btn);
         withdrawal_btn = (Button) findViewById(R.id.withdrawal_btn);
         userList.add(user1);
+        focused = true;
         Log.d(MainActivity.class.getSimpleName(), MainActivity.getLoggedInUser());
         Set<String> userInfo = getmPreferences().getStringSet(MainActivity.getLoggedInUser(), null);
         String balance = "";
@@ -80,7 +89,36 @@ public class SecondActivity extends AppCompatActivity {
         DecimalFormat decimalFormat = new DecimalFormat("#,###.00");
         String numberAsString = decimalFormat.format(number);
         balance_number.setText("$" + numberAsString);
-        balance_number.setText(balance);
+    }
+
+    android.os.Handler myHandler = new Handler();
+    Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(SecondActivity.isFocused()) {
+                //setContentView(R.layout.activity_in);
+                Intent intent = new Intent(SecondActivity.this, InActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        myHandler.removeCallbacks(myRunnable);
+        myHandler.postDelayed(myRunnable , 30000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        focused = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        focused = true;
     }
 
     public void clearInput(View view){
@@ -130,16 +168,21 @@ public class SecondActivity extends AppCompatActivity {
 
         Set<String> userInfo = getmPreferences().getStringSet(MainActivity.getLoggedInUser(), null);
         String balance = "";
+        String oldBalance = "";
         for(String s : userInfo) {
             if(s.startsWith("b")) {
+                oldBalance = s;
                 balance = s.substring(1);
-                userInfo.remove(s);
             }
         }
+        userInfo.remove(oldBalance);
+
         double current_balance = Double.parseDouble(balance);
         double updated = number + current_balance;
         userInfo.add("b" + updated);
         SharedPreferences.Editor preferencesEditor = MainActivity.getmPreferences().edit();
+        preferencesEditor.remove(MainActivity.getLoggedInUser());
+        preferencesEditor.commit();
         preferencesEditor.putStringSet(MainActivity.getLoggedInUser(), userInfo);
         preferencesEditor.apply();
 
@@ -166,12 +209,15 @@ public class SecondActivity extends AppCompatActivity {
 
         Set<String> userInfo = getmPreferences().getStringSet(MainActivity.getLoggedInUser(), null);
         String balance = "";
+        String oldBalance = "";
         for(String s : userInfo) {
             if(s.startsWith("b")) {
+                oldBalance = s;
                 balance = s.substring(1);
-                userInfo.remove(s);
             }
         }
+        userInfo.remove(oldBalance);
+
         double current_balance = Double.parseDouble(balance);
 
         double wUpdated = (current_balance - number);
@@ -179,6 +225,8 @@ public class SecondActivity extends AppCompatActivity {
             if (current_balance >= number) {
                 userInfo.add("b" + wUpdated);
                 SharedPreferences.Editor preferencesEditor = MainActivity.getmPreferences().edit();
+                preferencesEditor.remove(MainActivity.getLoggedInUser());
+                preferencesEditor.commit();
                 preferencesEditor.putStringSet(MainActivity.getLoggedInUser(), userInfo);
                 preferencesEditor.apply();
 

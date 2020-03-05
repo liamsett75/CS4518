@@ -65,27 +65,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    android.os.Handler myHandler = new Handler();
-    Runnable myRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Log.d(LOG_TAG, loggedInUser);
-            if(loggedInUser.length() > 0) {
-                //setContentView(R.layout.activity_in);
-                Intent intent = new Intent(MainActivity.this, InActivity.class);
-                startActivity(intent);
-            }
-        }
-    };
     @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        myHandler.removeCallbacks(myRunnable);
-        myHandler.postDelayed(myRunnable , 30000);
+    public void onResume() {
+        super.onResume();
+        logUserOut();
+        Log.d(LOG_TAG, "Logged out");
+        usernameText.setText("");
+        passwordText.setText("");
     }
 
     public void openLogin(View view) {
-        setContentView(R.layout.activity_second);
+        //setContentView(R.layout.activity_second);
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, SecondActivity.class);
         startActivity(intent);
@@ -115,16 +105,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registerEnter(View view) {
-        setContentView(R.layout.activity_register);
+        //setContentView(R.layout.activity_register);
         Log.d(LOG_TAG, "Button clicked!");
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
-
+/*
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
             Log.d("ImplicitIntents", "Can't handle this intent!");
-        }
+        }*/
     }
 
     protected static SharedPreferences getmPreferences() {

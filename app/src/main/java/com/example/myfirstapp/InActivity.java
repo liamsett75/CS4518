@@ -39,7 +39,13 @@ public class InActivity extends AppCompatActivity {
         return_message.setText("Welcome back, " + name + ".\nYou timed out.\nPlease enter your PIN to continue.");
 
     }
-
+/*
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.finish();
+    }
+*/
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
@@ -59,6 +65,8 @@ public class InActivity extends AppCompatActivity {
             toast.setGravity(Gravity.TOP, 0, 400);
             toast.show();
             this.finish();
+            //Intent intent = new Intent(this, MainActivity.class);
+            //startActivity(intent);
         }
         else {
             Toast toast = Toast.makeText(this, "Incorrect PIN", Toast.LENGTH_SHORT);
@@ -68,9 +76,8 @@ public class InActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        MainActivity.logUserOut();
-        setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }
